@@ -16,6 +16,9 @@ const server = app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
 );
+app.get("/", (req, res) => {
+  res.send("TaskFlow API is running...");
+});
 
 // Initialize Socket.io
 initSocket(server);
