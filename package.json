@@ -1,0 +1,15 @@
+{
+  "name": "taskflow-mern",
+  "version": "1.0.0",
+  "scripts": {
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build && rm -rf ../server/public && mv dist ../server/public",
+    "start": "cd server && npm start",
+    "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
+    "dev-server": "cd server && npm run dev",
+    "dev-client": "cd client && npm run dev"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
