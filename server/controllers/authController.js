@@ -16,6 +16,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   if (process.env.NODE_ENV === 'production') {
     options.secure = true;
+    options.sameSite = 'none';
   }
 
   res
@@ -88,7 +89,9 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 exports.logout = asyncHandler(async (req, res, next) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
   });
 
   res.status(200).json({
