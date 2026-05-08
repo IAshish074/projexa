@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "install-all": "npm install && cd client && npm install && cd ../server && npm install",
-    "build": "cd client && npm run build && rm -rf ../server/public && mv dist ../server/public",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install && mkdir -p public && cd ../client && rm -rf ../server/public && mv dist ../server/public",
     "start": "cd server && npm start",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\"",
     "dev-server": "cd server && npm run dev",
     "dev-client": "cd client && npm run dev"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "concurrently": "^8.2.2"
