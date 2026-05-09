@@ -23,10 +23,10 @@ app.use(cookieParser());
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
-  'https://projexa-production.up.railway.app',
+
   'https://imaginative-beauty-production-2a99.up.railway.app',
   'https://projexa-m4ee1ldd8-iashish074s-projects.vercel.app',
-  'https://projexa-beta.vercel.app',
+  'https://projexa-2ndeazqnn-iashish074s-projects.vercel.app',
   process.env.CLIENT_URL,
 ].filter(Boolean); 
 
