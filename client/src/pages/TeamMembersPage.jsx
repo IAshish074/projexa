@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useProjects } from '../context/ProjectContext';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
-import { Search, Mail, UserPlus, ShieldCheck, User } from 'lucide-react';
+import { Search, Mail, UserPlus, ShieldCheck, User, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import InviteModal from '../components/team/InviteModal';
 import api from '../utils/api';
@@ -38,6 +38,23 @@ const TeamMembersPage = () => {
       }
     } catch (err) {
       toast.error(err.response?.data?.error || 'Failed to update role');
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const handleDeleteMember = async (member) => {
+    const memberId = member._id || member.id;
+    if (!window.confirm(`Are you sure you want to remove ${member.name} from the system? This action cannot be undone.`)) return;
+    setLoadingId(memberId);
+    try {
+      await api.delete(`/users/${memberId}`);
+      toast.success(`${member.name} has been removed`);
+      if (setMembers) {
+        setMembers(prev => prev.filter(m => (m._id || m.id) !== memberId));
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || 'Failed to remove member');
     } finally {
       setLoadingId(null);
     }
@@ -117,23 +134,36 @@ const TeamMembersPage = () => {
 
               {/* Admin Role Toggle */}
               {currentUser?.role === 'admin' && !isCurrentUser && (
-                <button
-                  onClick={() => handleRoleToggle(member)}
-                  disabled={isLoading}
-                  className={`w-full flex items-center justify-center gap-2 py-1.5 text-xs rounded-lg border transition-all duration-200 ${
-                    member.role === 'admin'
-                      ? 'border-slate-600 text-slate-300 hover:border-red-400 hover:text-red-300 hover:bg-red-500/10'
-                      : 'border-slate-600 text-slate-300 hover:border-violet-400 hover:text-violet-300 hover:bg-violet-500/10'
-                  } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
-                  {isLoading ? (
-                    <span className="animate-spin rounded-full h-3 w-3 border-t border-white" />
-                  ) : member.role === 'admin' ? (
-                    <><User size={12} /> Demote to Member</>
-                  ) : (
-                    <><ShieldCheck size={12} /> Promote to Admin</>
-                  )}
-                </button>
+                <>
+                  <button
+                    onClick={() => handleRoleToggle(member)}
+                    disabled={isLoading}
+                    className={`w-full flex items-center justify-center gap-2 py-1.5 text-xs rounded-lg border transition-all duration-200 ${
+                      member.role === 'admin'
+                        ? 'border-slate-600 text-slate-300 hover:border-red-400 hover:text-red-300 hover:bg-red-500/10'
+                        : 'border-slate-600 text-slate-300 hover:border-violet-400 hover:text-violet-300 hover:bg-violet-500/10'
+                    } ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  >
+                    {isLoading ? (
+                      <span className="animate-spin rounded-full h-3 w-3 border-t border-white" />
+                    ) : member.role === 'admin' ? (
+                      <><User size={12} /> Demote to Member</>
+                    ) : (
+                      <><ShieldCheck size={12} /> Promote to Admin</>
+                    )}
+                  </button>
+
+                  {/* Delete Member Button */}
+                  <button
+                    onClick={() => handleDeleteMember(member)}
+                    disabled={isLoading}
+                    className={`w-full mt-2 flex items-center justify-center gap-2 py-1.5 text-xs rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10 hover:border-red-400 transition-all duration-200 ${
+                      isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    <Trash2 size={12} /> Remove Member
+                  </button>
+                </>
               )}
 
               {isCurrentUser && (
