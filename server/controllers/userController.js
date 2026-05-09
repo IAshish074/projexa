@@ -126,3 +126,39 @@ exports.inviteUser = asyncHandler(async (req, res, next) => {
     data: `Invitation sent to ${email}`
   });
 });
+
+// @desc    Update user role (admin only)
+// @route   PATCH /api/users/:id/role
+// @access  Private/Admin
+exports.updateUserRole = asyncHandler(async (req, res, next) => {
+  const { role } = req.body;
+
+  if (!role || !['admin', 'member'].includes(role)) {
+    return next(new ErrorResponse('Role must be either "admin" or "member"', 400));
+  }
+
+  if (req.params.id === req.user.id.toString()) {
+    return next(new ErrorResponse('You cannot change your own role', 400));
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { role },
+    { new: true, runValidators: true }
+  );
+
+  if (!user) {
+    return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
+  }
+
+  // Emit real-time role change notification
+  try {
+    const io = getIO();
+    io.emit('role-updated', { userId: user._id, newRole: user.role, updatedBy: req.user.name });
+  } catch (e) { /* socket may not be ready */ }
+
+  res.status(200).json({
+    success: true,
+    data: user
+  });
+});

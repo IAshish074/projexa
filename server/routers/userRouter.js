@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUsers, getUser, updateUser, updateAvatar, inviteUser } = require('../controllers/userController');
+const { getUsers, getUser, updateUser, updateAvatar, inviteUser, updateUserRole } = require('../controllers/userController');
 const multer = require('multer');
 const upload = multer({ 
   storage: multer.memoryStorage(),
@@ -20,5 +20,8 @@ router.put('/avatar', upload.single('avatar'), updateAvatar);
 router.route('/:id')
   .get(getUser)
   .put(updateUser);
+
+// Admin only: update user role
+router.patch('/:id/role', authorize('admin'), updateUserRole);
 
 module.exports = router;
