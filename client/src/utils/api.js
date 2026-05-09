@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://projexa-2ndeazqnn-iashish074s-projects.vercel.app/api' : 'http://localhost:5002/api'),
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://projexa-production-65bd.up.railway.app/api' : 'http://localhost:5002/api'),
   withCredentials: true, // Required for cookies (JWT)
   headers: {}
 });
