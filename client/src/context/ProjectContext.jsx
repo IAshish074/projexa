@@ -24,7 +24,7 @@ export const ProjectProvider = ({ children }) => {
     if (socket) {
       socket.on('task-created', (task) => {
         setTasks(prev => [...prev, task]);
-        fetchDashboardData(); 
+        fetchDashboardData();
       });
 
       socket.on('task-updated', (updatedTask) => {
@@ -32,7 +32,13 @@ export const ProjectProvider = ({ children }) => {
         fetchDashboardData();
       });
 
-      
+      // Real-time role update
+      socket.on('role-updated', ({ userId, newRole }) => {
+        setMembers(prev =>
+          prev.map(m => (m._id || m.id) === userId ? { ...m, role: newRole } : m)
+        );
+      });
+
       projects.forEach(p => {
         socket.emit('join-project', p._id);
       });
@@ -40,6 +46,7 @@ export const ProjectProvider = ({ children }) => {
       return () => {
         socket.off('task-created');
         socket.off('task-updated');
+        socket.off('role-updated');
       };
     }
   }, [socket, projects]);
@@ -166,8 +173,9 @@ export const ProjectProvider = ({ children }) => {
     projects,
     tasks,
     members,
+    setMembers,
     stats,
-    activity: [], 
+    activity: [],
     loading,
     addProject,
     updateProject,
