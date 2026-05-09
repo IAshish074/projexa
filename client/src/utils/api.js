@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://projexa-m4ee1ldd8-iashish074s-projects.vercel.app/api' : 'http://localhost:5001/api'),
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://projexa-beta.vercel.app/api' : 'http://localhost:5001/api'),
   withCredentials: true, // Required for cookies (JWT)
   headers: {}
 });

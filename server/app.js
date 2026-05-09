@@ -26,12 +26,12 @@ const allowedOrigins = [
   'https://projexa-production.up.railway.app',
   'https://imaginative-beauty-production-2a99.up.railway.app',
   'https://projexa-m4ee1ldd8-iashish074s-projects.vercel.app',
+  'https://projexa-beta.vercel.app',
   process.env.CLIENT_URL,
 ].filter(Boolean); 
 
 app.use(cors({
   origin: function (origin, callback) {
-    
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
       callback(null, true);
@@ -39,8 +39,13 @@ app.use(cors({
       callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
