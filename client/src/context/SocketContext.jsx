@@ -12,7 +12,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const socketUrl = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? window.location.origin : 'http://localhost:5001');
+      const socketUrl = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://projexa-production.up.railway.app' : 'http://localhost:5001');
       const newSocket = io(socketUrl, {
         withCredentials: true
       });
