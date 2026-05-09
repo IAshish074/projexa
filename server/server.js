@@ -1,31 +1,36 @@
 const dotenv = require('dotenv');
 
-// Load env vars before loading app
+// Load env vars
 dotenv.config();
 
 const app = require('./app');
 const connectDB = require('./config/db');
 const { initSocket } = require('./utils/socket');
 
-// Connect to database
+// Connect Database
 connectDB();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-const server = app.listen(
-  PORT,
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
-);
-app.get("/", (req, res) => {
-  res.send("TaskFlow API is running...");
+// Root route
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'TaskFlow API is running...',
+  });
 });
 
-// Initialize Socket.io
+// Start server
+const server = app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+
+// Initialize socket
 initSocket(server);
 
 // Handle unhandled promise rejections
-process.on('unhandledRejection', (err, promise) => {
+process.on('unhandledRejection', (err) => {
   console.log(`Error: ${err.message}`);
-  // Close server & exit process
+
   server.close(() => process.exit(1));
 });
