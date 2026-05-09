@@ -73,25 +73,27 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
-exports.deleteUser = asyncHandler(async (req, res, next) => {
-  // Prevent admin from deleting themselves
-  if (req.params.id === req.user.id.toString()) {
-    return next(new ErrorResponse('You cannot delete your own account', 400));
+exports.deleteUser = async (req, res, next) => {
+  try {
+    // Prevent admin from deleting themselves
+    if (req.params.id === req.user.id.toString()) {
+      return res.status(400).json({ success: false, error: 'You cannot delete your own account' });
+    }
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, error: `User not found with id of ${req.params.id}` });
+    }
+
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    console.error('deleteUser error:', err);
+    res.status(500).json({ success: false, error: err.message || 'Server Error' });
   }
-
-  const user = await User.findById(req.params.id);
-
-  if (!user) {
-    return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404));
-  }
-
-  await User.findByIdAndDelete(req.params.id);
-
-  res.status(200).json({
-    success: true,
-    data: {}
-  });
-});
+};
 
 // @desc    Update profile picture
 // @route   PUT /api/users/avatar

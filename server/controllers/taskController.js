@@ -147,27 +147,29 @@ exports.updateTask = asyncHandler(async (req, res, next) => {
 });
 
 
-exports.deleteTask = asyncHandler(async (req, res, next) => {
-  const task = await Task.findById(req.params.id).populate('project');
+exports.deleteTask = async (req, res, next) => {
+  try {
+    const task = await Task.findById(req.params.id).populate('project');
 
-  if (!task) {
-    return next(new ErrorResponse(`Task not found with id of ${req.params.id}`, 404));
+    if (!task) {
+      return res.status(404).json({ success: false, error: `Task not found with id of ${req.params.id}` });
+    }
+
+    if (
+      task.project.createdBy.toString() !== req.user.id &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(401).json({ success: false, error: 'Not authorized to delete this task' });
+    }
+
+    await Task.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    console.error('deleteTask error:', err);
+    res.status(500).json({ success: false, error: err.message || 'Server Error' });
   }
-
-  if (
-    task.project.createdBy.toString() !== req.user.id &&
-    req.user.role !== 'admin'
-  ) {
-    return next(new ErrorResponse(`User ${req.user.id} is not authorized to delete this task`, 401));
-  }
-
-  await Task.findByIdAndDelete(req.params.id);
-
-  res.status(200).json({
-    success: true,
-    data: {}
-  });
-});
+};
 
 
 exports.uploadTaskAttachment = asyncHandler(async (req, res, next) => {
