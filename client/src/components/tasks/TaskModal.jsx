@@ -30,8 +30,9 @@ const TaskModal = ({ isOpen, onClose, task = null, initialStatus = 'todo' }) => 
     setLoading(true);
     try {
       if (task) {
-        // For simplicity in this demo, updateTaskStatus is actually an updateTask call
-        await updateTask(task._id, formData);
+        // Members can only update status — send only status field
+        const payload = isAdmin ? formData : { status: formData.status };
+        await updateTask(task._id, payload);
         toast.success('Task updated successfully');
       } else {
         await addTask(formData.projectId, formData);
@@ -178,13 +179,16 @@ const TaskModal = ({ isOpen, onClose, task = null, initialStatus = 'todo' }) => 
           >
             {isAdmin ? 'Cancel' : 'Close'}
           </Button>
-          <Button
-            type="submit"
-            className="flex-1"
-            isLoading={loading}
-          >
-            {task ? 'Save Changes' : 'Create Task'}
-          </Button>
+          {/* Admin can always save; members can update status on their own tasks */}
+          {(isAdmin || (!isAdmin && task)) && (
+            <Button
+              type="submit"
+              className="flex-1"
+              isLoading={loading}
+            >
+              {task ? (isAdmin ? 'Save Changes' : 'Update Status') : 'Create Task'}
+            </Button>
+          )}
         </div>
       </form>
     </Modal>

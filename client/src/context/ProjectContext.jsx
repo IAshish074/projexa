@@ -169,6 +169,18 @@ export const ProjectProvider = ({ children }) => {
     }
   };
 
+  // Alias used by KanbanColumn for drag-and-drop status updates
+  const updateTaskStatus = async (taskId, status) => {
+    try {
+      const res = await api.put(`/tasks/${taskId}`, { status });
+      setTasks(prev => prev.map(t => t._id === taskId ? res.data.data : t));
+      api.get('/projects').then(r => setProjects(r.data.data));
+    } catch (err) {
+      const errorMsg = err.response?.data?.error || 'Failed to update task status';
+      toast.error(errorMsg);
+    }
+  };
+
   const value = {
     projects,
     tasks,
@@ -182,6 +194,7 @@ export const ProjectProvider = ({ children }) => {
     deleteProject,
     addTask,
     updateTask,
+    updateTaskStatus,
     deleteTask,
     refreshData: fetchDashboardData
   };

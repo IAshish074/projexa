@@ -88,9 +88,15 @@ const ProfileSettingsPage = () => {
 
     setLoading(true);
     try {
-      const res = await api.put('/users/avatar', formData);
-      setUser(prev => ({ ...prev, avatar: res.data.data.avatar }));
-      toast.success('Avatar updated successfully');
+      const res = await api.put('/users/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      if (setUser) {
+        setUser(prev => ({ ...prev, avatar: res.data.data.avatar }));
+      }
+      toast.success('Profile picture updated successfully!');
+      // Reset input so same file can be re-selected if needed
+      e.target.value = '';
     } catch (err) {
       toast.error(err.response?.data?.error || 'Upload failed');
     } finally {

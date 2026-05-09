@@ -17,7 +17,13 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const res = await api.get('/auth/me');
-      setUser(res.data.data);
+      const userData = res.data.data;
+      // Normalize: ensure both id and _id are available
+      setUser({
+        ...userData,
+        id: userData._id || userData.id,
+        _id: userData._id || userData.id
+      });
     } catch (err) {
       console.log('No active session found.');
       setUser(null);
@@ -75,6 +81,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    setUser,
     loading,
     login,
     register,
