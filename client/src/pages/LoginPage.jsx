@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
-    
+
     try {
       await login(email, password);
       navigate('/dashboard');
@@ -35,7 +35,7 @@ const LoginPage = () => {
           <span className="text-white font-bold text-2xl leading-none">P</span>
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">Welcome Back</h2>
-        <p className="text-slate-400 text-sm">Sign in to continue to ProManage</p>
+        <p className="text-slate-400 text-sm">Sign in to continue to projexa</p>
       </div>
 
       {error && (
@@ -49,8 +49,8 @@ const LoginPage = () => {
           <label className="block text-sm font-medium text-slate-300 mb-1.5">Email Address</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -67,8 +67,8 @@ const LoginPage = () => {
           </label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -78,9 +78,9 @@ const LoginPage = () => {
           </div>
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full mt-2 py-2.5" 
+        <Button
+          type="submit"
+          className="w-full mt-2 py-2.5"
           isLoading={isSubmitting}
         >
           <span className="flex items-center gap-2">

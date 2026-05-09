@@ -10,7 +10,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const { register } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const RegisterPage = () => {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
-    
+
     try {
       await register(name, email, password);
       navigate('/dashboard');
@@ -35,7 +35,7 @@ const RegisterPage = () => {
           <span className="text-white font-bold text-2xl leading-none">P</span>
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">Create an Account</h2>
-        <p className="text-slate-400 text-sm">Join ProManage to start collaborating</p>
+        <p className="text-slate-400 text-sm">Join projexa to start collaborating</p>
       </div>
 
       {error && (
@@ -49,8 +49,8 @@ const RegisterPage = () => {
           <label className="block text-sm font-medium text-slate-300 mb-1.5">Full Name</label>
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -64,8 +64,8 @@ const RegisterPage = () => {
           <label className="block text-sm font-medium text-slate-300 mb-1.5">Email Address</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -79,8 +79,8 @@ const RegisterPage = () => {
           <label className="block text-sm font-medium text-slate-300 mb-1.5">Password</label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -91,9 +91,9 @@ const RegisterPage = () => {
           </div>
         </div>
 
-        <Button 
-          type="submit" 
-          className="w-full mt-2 py-2.5" 
+        <Button
+          type="submit"
+          className="w-full mt-2 py-2.5"
           isLoading={isSubmitting}
         >
           <span className="flex items-center gap-2">

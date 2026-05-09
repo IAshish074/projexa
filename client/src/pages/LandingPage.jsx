@@ -9,7 +9,7 @@ const LandingPage = () => {
   const { user, loading } = useAuth();
 
   if (loading) return null;
-  
+
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -28,7 +28,7 @@ const LandingPage = () => {
               <span className="text-white font-bold text-xl leading-none">P</span>
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
-              ProManage
+              projexa
             </span>
           </div>
           <div className="flex gap-4">
@@ -57,10 +57,10 @@ const LandingPage = () => {
             <span className="gradient-text">effortless clarity</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-            A modern, intuitive project management platform designed for forward-thinking teams. 
+            A modern, intuitive project management platform designed for forward-thinking teams.
             Streamline workflows, track progress, and deliver results faster.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/register">
               <Button className="py-3 px-8 text-lg w-full sm:w-auto">
@@ -74,7 +74,7 @@ const LandingPage = () => {
             </a>
           </div>
         </motion.div>
-        
+
         {/* Mockup Preview */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -84,26 +84,26 @@ const LandingPage = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent z-10" />
           <div className="glass-card rounded-t-2xl border-b-0 overflow-hidden shadow-2xl p-2 relative max-w-4xl mx-auto">
-             <div className="bg-dark-800 rounded-t-xl overflow-hidden border border-white/5 aspect-video flex flex-col">
-               {/* Browser bar mockup */}
-               <div className="bg-dark-900 border-b border-white/5 py-2 px-4 flex items-center gap-2">
-                 <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                 <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-               </div>
-               <div className="flex-1 p-6 flex flex-col gap-4">
-                 <div className="w-48 h-6 bg-white/5 rounded-md animate-pulse"></div>
-                 <div className="grid grid-cols-3 gap-4">
-                   <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
-                   <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
-                   <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
-                 </div>
-                 <div className="flex-1 flex gap-4 mt-4">
-                   <div className="w-64 h-full bg-white/5 rounded-lg animate-pulse"></div>
-                   <div className="flex-1 h-full bg-white/5 rounded-lg animate-pulse"></div>
-                 </div>
-               </div>
-             </div>
+            <div className="bg-dark-800 rounded-t-xl overflow-hidden border border-white/5 aspect-video flex flex-col">
+              {/* Browser bar mockup */}
+              <div className="bg-dark-900 border-b border-white/5 py-2 px-4 flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+              </div>
+              <div className="flex-1 p-6 flex flex-col gap-4">
+                <div className="w-48 h-6 bg-white/5 rounded-md animate-pulse"></div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
+                  <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
+                  <div className="h-24 bg-white/5 rounded-lg animate-pulse"></div>
+                </div>
+                <div className="flex-1 flex gap-4 mt-4">
+                  <div className="w-64 h-full bg-white/5 rounded-lg animate-pulse"></div>
+                  <div className="flex-1 h-full bg-white/5 rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </main>

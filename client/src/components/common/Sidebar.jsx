@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  Briefcase, 
-  CheckSquare, 
-  Users, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Briefcase,
+  CheckSquare,
+  Users,
+  Settings,
   LogOut,
   MessageSquare
 } from 'lucide-react';
@@ -33,24 +33,23 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
     <>
       {/* Mobile Backdrop */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <motion.aside 
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 glass border-r border-white/5 flex flex-col transition-transform duration-300 ease-in-out ${
-          isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+      <motion.aside
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 glass border-r border-white/5 flex flex-col transition-transform duration-300 ease-in-out ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}
       >
         <div className="p-6 flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/30">
             <span className="text-white font-bold text-xl leading-none">P</span>
           </div>
           <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-            ProManage
+            projexa
           </span>
         </div>
 
@@ -62,8 +61,8 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
               onClick={() => setIsMobileOpen(false)}
               className={({ isActive }) => `
                 flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
-                ${isActive 
-                  ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]' 
+                ${isActive
+                  ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'}
               `}
             >
@@ -81,8 +80,8 @@ const Sidebar = ({ isMobileOpen, setIsMobileOpen }) => {
               <p className="text-xs text-slate-400 capitalize">{user?.role}</p>
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-red-400 hover:bg-red-400/10 rounded-xl transition-colors"
           >
