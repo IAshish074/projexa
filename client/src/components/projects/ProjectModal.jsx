@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { useProjects } from '../../context/ProjectContext';
@@ -10,16 +10,26 @@ const ProjectModal = ({ isOpen, onClose, project = null }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const isOwner = project?.createdBy?._id === user?.id || project?.createdBy === user?.id;
   const isAdmin = user?.role === 'admin';
+  const isOwner =
+    project?.createdBy?._id?.toString() === (user?.id || user?._id)?.toString() ||
+    project?.createdBy?.toString() === (user?.id || user?._id)?.toString();
   const canEditAll = isOwner || isAdmin;
-  const [formData, setFormData] = useState({
-    title: project?.title || '',
-    description: project?.description || '',
-    status: project?.status || 'planning',
-    deadline: project?.deadline ? new Date(project.deadline).toISOString().split('T')[0] : '',
-    teamMembers: project?.teamMembers?.map(m => typeof m === 'object' ? m._id : m) || []
+
+  const getInitialFormData = (proj) => ({
+    title: proj?.title || '',
+    description: proj?.description || '',
+    status: proj?.status || 'planning',
+    deadline: proj?.deadline ? new Date(proj.deadline).toISOString().split('T')[0] : '',
+    teamMembers: proj?.teamMembers?.map(m => typeof m === 'object' ? m._id : m) || []
   });
+
+  const [formData, setFormData] = useState(() => getInitialFormData(project));
+
+  // Re-initialize form when the project prop changes
+  useEffect(() => {
+    setFormData(getInitialFormData(project));
+  }, [project?._id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
