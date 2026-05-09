@@ -9,6 +9,7 @@ import { SocketProvider } from './context/SocketContext';
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import DashboardLayout from './layouts/DashboardLayout';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
@@ -37,7 +38,7 @@ function App() {
                   <Route path="/register" element={<RegisterPage />} />
                 </Route>
                 
-                <Route element={<DashboardLayout />}>
+                <Route element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                   <Route path="/dashboard" element={<AdminDashboard />} />
                   <Route path="/projects" element={<ProjectsPage />} />
                   <Route path="/projects/:id" element={<ProjectDetailsPage />} />
