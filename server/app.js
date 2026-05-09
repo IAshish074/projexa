@@ -30,21 +30,25 @@ const allowedOrigins = [
 // CORS Configuration
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (Postman, mobile apps, curl)
-    if (!origin) {
+    // Allow requests with no origin (Postman, mobile apps, curl, server-to-server)
+    if (!origin) return callback(null, true);
+
+    // Allow if in allowedOrigins list
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+
+    // Allow all vercel.app and railway.app subdomains in production
+    if (origin.endsWith('.vercel.app') || origin.endsWith('.up.railway.app')) {
       return callback(null, true);
     }
 
-    if (
-      allowedOrigins.includes(origin) ||
-      process.env.NODE_ENV !== 'production'
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    // Allow everything in non-production
+    if (process.env.NODE_ENV !== 'production') return callback(null, true);
+
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
 };
 
 app.use(cors(corsOptions));
