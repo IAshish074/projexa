@@ -6,7 +6,10 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-   server: {
+  build: {
+    emptyOutDir: true,
+  },
+  server: {
     headers: {
       "Cache-Control": "no-store",
     },
