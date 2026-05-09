@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? 'https://imaginative-beauty-production-2a99.up.railway.app/api' : 'http://localhost:5001/api'),
+  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5001/api'),
   withCredentials: true, // Required for cookies (JWT)
   headers: {}
 });
