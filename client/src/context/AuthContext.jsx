@@ -30,6 +30,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await api.post('/auth/login', { email, password });
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token);
+      }
       setUser(res.data.user);
       return res.data.user;
     } catch (err) {
@@ -45,6 +48,9 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await api.post('/auth/register', { name, email, password, role });
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token);
+      }
       setUser(res.data.user);
       return res.data.user;
     } catch (err) {
@@ -62,6 +68,7 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
+    localStorage.removeItem('token');
     setUser(null);
     window.location.href = '/login';
   };
