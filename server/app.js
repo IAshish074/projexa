@@ -44,7 +44,12 @@ app.use(cors({
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/health', (req, res) => res.status(200).send('OK'));
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server healthy"
+  });
+});
 
 
 app.use('/api/auth', authRoutes);
