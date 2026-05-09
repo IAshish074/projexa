@@ -8,7 +8,7 @@ const initSocket = (server) => {
       origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://satisfied-healing-production-27e1.up.railway.app',
+        'https://projexa-1pmb.vercel.app',
         'https://projexa-production-65bd.up.railway.app',
         process.env.CLIENT_URL
       ].filter(Boolean),
