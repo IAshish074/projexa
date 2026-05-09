@@ -161,7 +161,7 @@ exports.deleteTask = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`User ${req.user.id} is not authorized to delete this task`, 401));
   }
 
-  await task.remove();
+  await Task.findByIdAndDelete(req.params.id);
 
   res.status(200).json({
     success: true,

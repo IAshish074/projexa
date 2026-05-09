@@ -106,7 +106,7 @@ export const ProjectProvider = ({ children }) => {
     try {
       const res = await api.put(`/projects/${id}`, updatedData);
       setProjects(projects.map(p => p._id === id ? res.data.data : p));
-      toast.success('Project updated');
+      return res.data.data;
     } catch (err) {
       const errorMsg = err.response?.data?.error || 'Failed to update project';
       toast.error(errorMsg);

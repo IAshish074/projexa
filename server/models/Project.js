@@ -48,7 +48,7 @@ const ProjectSchema = new mongoose.Schema(
 );
 
 // Cascade delete tasks when a project is deleted
-ProjectSchema.pre('remove', async function(next) {
+ProjectSchema.pre('deleteOne', { document: true, query: false }, async function(next) {
   console.log(`Tasks being removed from project ${this._id}`);
   await this.model('Task').deleteMany({ project: this._id });
   next();

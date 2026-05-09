@@ -121,12 +121,13 @@ exports.deleteProject = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Project not found with id of ${req.params.id}`, 404));
   }
 
-
+  // Only the project creator or an admin can delete
   if (project.createdBy.toString() !== req.user.id && req.user.role !== 'admin') {
     return next(new ErrorResponse(`User ${req.user.id} is not authorized to delete this project`, 401));
   }
 
-  await project.remove();
+  // Use deleteOne() so the pre('deleteOne') cascade hook fires and removes all tasks
+  await project.deleteOne();
 
   res.status(200).json({
     success: true,
